@@ -1,22 +1,34 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package awaken;
 
+import java.awt.AWTException;
+
 /**
- *
+ * Runs the awaken program to keep machine awake
  * @author javier
  */
 public class Awaken {
-
+    private static int timeout = 60000;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        MouseHandler mhandler = null;
+        try{
+            mhandler = new MouseHandler();
+            SystemTrayHandler shandler = new SystemTrayHandler();
+            shandler.showIcon();
+        }catch(AWTException err){
+            err.printStackTrace(System.err);
+            System.exit(0);
+        }
+        while(true){
+            mhandler.invisibleMouseMove();
+            try {
+                Thread.sleep(timeout);
+            } catch (InterruptedException ex) {
+                ex.printStackTrace(System.err);
+            }
+        }
     }
     
 }
